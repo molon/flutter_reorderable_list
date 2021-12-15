@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'
-    hide ReorderableList, ReorderableListState;
+import 'package:flutter/material.dart';
 import 'package:reorderable_list/drawer.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 
@@ -164,8 +163,8 @@ class _NestingExampleState extends State<NestingExample> {
     // final draggedItem = _categories[dragProsition.section];
   }
 
-  final GlobalKey<ReorderableListState> sectionListKey = GlobalKey();
-  final GlobalKey<ReorderableListState> indexListKey = GlobalKey();
+  final GlobalKey<KNReorderableListState> sectionListKey = GlobalKey();
+  final GlobalKey<KNReorderableListState> indexListKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -179,11 +178,11 @@ class _NestingExampleState extends State<NestingExample> {
         decoration: const BoxDecoration(
           color: Color(0xFFF2F3F5),
         ),
-        child: ReorderableList(
+        child: KNReorderableList(
           key: sectionListKey,
           onReorder: _reorderSectionCallback,
           onReorderDone: _reorderSectionDone,
-          child: ReorderableList(
+          child: KNReorderableList(
             key: indexListKey,
             onReorder: _reorderIndexCallback,
             onReorderDone: _reorderIndexDone,
@@ -206,8 +205,8 @@ class _NestingExampleState extends State<NestingExample> {
 
 class ChannelSection extends StatefulWidget {
   final Category category;
-  final GlobalKey<ReorderableListState> sectionListKey;
-  final GlobalKey<ReorderableListState> indexListKey;
+  final GlobalKey<KNReorderableListState> sectionListKey;
+  final GlobalKey<KNReorderableListState> indexListKey;
 
   const ChannelSection({
     Key? key,
@@ -285,19 +284,20 @@ class _ChannelSectionState extends State<ChannelSection> {
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableItem(
+    return KNReorderableItem(
         key: widget.category.key,
         listKey: widget.sectionListKey,
         childBuilder:
-            (BuildContext context, ReorderableItemDisplayState state) {
+            (BuildContext context, KNReorderableItemDisplayState state) {
           BoxDecoration? decoration;
 
-          if (state == ReorderableItemDisplayState.dragProxy ||
-              state == ReorderableItemDisplayState.dragProxyFinished) {
+          if (state == KNReorderableItemDisplayState.dragProxy ||
+              state == KNReorderableItemDisplayState.dragProxyFinished) {
             decoration = const BoxDecoration(color: Color(0xD0FFFFFF));
           }
 
-          final showSection = state != ReorderableItemDisplayState.placeholder;
+          final showSection =
+              state != KNReorderableItemDisplayState.placeholder;
 
 /*
 There is a issue here:
@@ -310,12 +310,12 @@ So here I avoid Opacity nesting to avoid this issue.
             decoration: decoration,
             child: Column(
               children: [
-                ReorderableListener(
-                  child: ReorderableItem(
+                KNReorderableListener(
+                  child: KNReorderableItem(
                     key: widget.category.key, //
                     listKey: widget.indexListKey,
                     childBuilder: (BuildContext context,
-                        ReorderableItemDisplayState state) {
+                        KNReorderableItemDisplayState state) {
                       return Opacity(
                         opacity: !showSection ? 0.0 : 1.0,
                         child: Container(
@@ -330,25 +330,27 @@ So here I avoid Opacity nesting to avoid this issue.
                 ),
                 for (var v in widget.category.channels)
                   if (!widget.category.collapse || v.forceDisplay)
-                    ReorderableItem(
+                    KNReorderableItem(
                       key: v.key,
                       listKey: widget.indexListKey,
                       childBuilder: (BuildContext context,
-                          ReorderableItemDisplayState state) {
+                          KNReorderableItemDisplayState state) {
                         BoxDecoration? decoration;
 
-                        if (state == ReorderableItemDisplayState.dragProxy ||
+                        if (state == KNReorderableItemDisplayState.dragProxy ||
                             state ==
-                                ReorderableItemDisplayState.dragProxyFinished) {
+                                KNReorderableItemDisplayState
+                                    .dragProxyFinished) {
                           decoration =
                               const BoxDecoration(color: Color(0xD0FFFFFF));
                         }
 
-                        return ReorderableListener(
+                        return KNReorderableListener(
                           child: Opacity(
                             opacity: !showSection ||
                                     state ==
-                                        ReorderableItemDisplayState.placeholder
+                                        KNReorderableItemDisplayState
+                                            .placeholder
                                 ? 0.0
                                 : 1.0,
                             child: Container(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide ReorderableList;
+import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:reorderable_list/drawer.dart';
 
@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavigationDrawer(),
-      body: ReorderableList(
+      body: KNReorderableList(
         onReorder: _reorderCallback,
         onReorderDone: _reorderDone,
         child: CustomScrollView(
@@ -176,15 +176,16 @@ class Item extends StatelessWidget {
   final bool isLast;
   final DraggingMode draggingMode;
 
-  Widget _buildChild(BuildContext context, ReorderableItemDisplayState state) {
+  Widget _buildChild(
+      BuildContext context, KNReorderableItemDisplayState state) {
     BoxDecoration decoration;
 
-    if (state == ReorderableItemDisplayState.dragProxy ||
-        state == ReorderableItemDisplayState.dragProxyFinished) {
+    if (state == KNReorderableItemDisplayState.dragProxy ||
+        state == KNReorderableItemDisplayState.dragProxyFinished) {
       // slightly transparent background white dragging (just like on iOS)
       decoration = const BoxDecoration(color: Color(0xD0FFFFFF));
     } else {
-      bool placeholder = state == ReorderableItemDisplayState.placeholder;
+      bool placeholder = state == KNReorderableItemDisplayState.placeholder;
       decoration = BoxDecoration(
           border: Border(
               top: isFirst && !placeholder
@@ -199,7 +200,7 @@ class Item extends StatelessWidget {
     // For iOS dragging mode, there will be drag handle on the right that triggers
     // reordering; For android mode it will be just an empty container
     Widget dragHandle = draggingMode == DraggingMode.iOS
-        ? ReorderableListener(
+        ? KNReorderableListener(
             child: Container(
               padding: const EdgeInsets.only(right: 18.0, left: 18.0),
               color: const Color(0x08000000),
@@ -218,7 +219,7 @@ class Item extends StatelessWidget {
           child: Opacity(
             // hide content for placeholder
             opacity:
-                state == ReorderableItemDisplayState.placeholder ? 0.0 : 1.0,
+                state == KNReorderableItemDisplayState.placeholder ? 0.0 : 1.0,
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -240,7 +241,7 @@ class Item extends StatelessWidget {
 
     // For android dragging mode, wrap the entire content in DelayedReorderableListener
     if (draggingMode == DraggingMode.android) {
-      content = DelayedReorderableListener(
+      content = KNDelayedReorderableListener(
         child: content,
       );
     }
@@ -250,7 +251,7 @@ class Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableItem(
+    return KNReorderableItem(
         key: data.key, //
         childBuilder: _buildChild);
   }
