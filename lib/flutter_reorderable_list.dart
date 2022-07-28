@@ -388,7 +388,7 @@ class KNReorderableListState extends State<KNReorderableList>
     if (_scrolling) {
       var prevDragging = _dragging;
       _dragging = null;
-      SchedulerBinding.instance!.addPostFrameCallback((Duration timeStamp) {
+      SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
         _dragging = prevDragging;
         end(details);
       });
@@ -396,7 +396,7 @@ class KNReorderableListState extends State<KNReorderableList>
     }
 
     if (_scheduledRebuild) {
-      SchedulerBinding.instance!.addPostFrameCallback((Duration timeStamp) {
+      SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
         if (mounted) end(details);
       });
       return;
@@ -516,7 +516,7 @@ class KNReorderableListState extends State<KNReorderableList>
     if (closest != null &&
         closest.key != _dragging &&
         closest.key != _lastReportedKey) {
-      SchedulerBinding.instance!.addPostFrameCallback((Duration timeStamp) {
+      SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
         _scheduledRebuild = false;
       });
       _scheduledRebuild = true;
