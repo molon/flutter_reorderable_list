@@ -17,11 +17,11 @@ class NavigationDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('Nesting'),
+            title: const Text('Nested'),
             leading: const Icon(Icons.view_list),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/nesting');
+              Navigator.of(context).pushReplacementNamed('/nested');
             },
           ),
         ],
