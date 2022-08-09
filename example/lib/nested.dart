@@ -33,14 +33,14 @@ class IndexPath {
   });
 }
 
-class NestingExample extends StatefulWidget {
-  const NestingExample({Key? key}) : super(key: key);
+class NestedExample extends StatefulWidget {
+  const NestedExample({Key? key}) : super(key: key);
 
   @override
-  State<NestingExample> createState() => _NestingExampleState();
+  State<NestedExample> createState() => _NestedExampleState();
 }
 
-class _NestingExampleState extends State<NestingExample> {
+class _NestedExampleState extends State<NestedExample> {
   final List<Category> _categories = [
     Category(name: '', channels: [
       Channel(name: 'announcements'),
@@ -287,17 +287,15 @@ class _ChannelSectionState extends State<ChannelSection> {
     return KNReorderableItem(
         key: widget.category.key,
         listKey: widget.sectionListKey,
-        childBuilder:
-            (BuildContext context, KNReorderableItemDisplayState state) {
+        childBuilder: (BuildContext context, KNReorderableItemState state) {
           BoxDecoration? decoration;
 
-          if (state == KNReorderableItemDisplayState.dragProxy ||
-              state == KNReorderableItemDisplayState.dragProxyFinished) {
+          if (state == KNReorderableItemState.dragProxy ||
+              state == KNReorderableItemState.dragProxyFinished) {
             decoration = const BoxDecoration(color: Color(0xD0FFFFFF));
           }
 
-          final showSection =
-              state != KNReorderableItemDisplayState.placeholder;
+          final showSection = state != KNReorderableItemState.placeholder;
 
 /*
 There is a issue here:
@@ -310,12 +308,12 @@ So here I avoid Opacity nesting to avoid this issue.
             decoration: decoration,
             child: Column(
               children: [
-                KNReorderableListener(
+                KNDelayedReorderableListener(
                   child: KNReorderableItem(
                     key: widget.category.key, //
                     listKey: widget.indexListKey,
-                    childBuilder: (BuildContext context,
-                        KNReorderableItemDisplayState state) {
+                    childBuilder:
+                        (BuildContext context, KNReorderableItemState state) {
                       return Opacity(
                         opacity: !showSection ? 0.0 : 1.0,
                         child: Container(
@@ -333,24 +331,20 @@ So here I avoid Opacity nesting to avoid this issue.
                     KNReorderableItem(
                       key: v.key,
                       listKey: widget.indexListKey,
-                      childBuilder: (BuildContext context,
-                          KNReorderableItemDisplayState state) {
+                      childBuilder:
+                          (BuildContext context, KNReorderableItemState state) {
                         BoxDecoration? decoration;
 
-                        if (state == KNReorderableItemDisplayState.dragProxy ||
-                            state ==
-                                KNReorderableItemDisplayState
-                                    .dragProxyFinished) {
+                        if (state == KNReorderableItemState.dragProxy ||
+                            state == KNReorderableItemState.dragProxyFinished) {
                           decoration =
                               const BoxDecoration(color: Color(0xD0FFFFFF));
                         }
 
-                        return KNReorderableListener(
+                        return KNDelayedReorderableListener(
                           child: Opacity(
                             opacity: !showSection ||
-                                    state ==
-                                        KNReorderableItemDisplayState
-                                            .placeholder
+                                    state == KNReorderableItemState.placeholder
                                 ? 0.0
                                 : 1.0,
                             child: Container(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:reorderable_list/drawer.dart';
 
-import 'nesting.dart';
+import 'nested.dart';
 
 void main() => runApp(const MyApp());
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MyHomePage(title: 'Flutter Reorderable List'),
-        '/nesting': (context) => const NestingExample(),
+        '/nested': (context) => const NestedExample(),
       },
     );
   }
@@ -176,16 +176,15 @@ class Item extends StatelessWidget {
   final bool isLast;
   final DraggingMode draggingMode;
 
-  Widget _buildChild(
-      BuildContext context, KNReorderableItemDisplayState state) {
+  Widget _buildChild(BuildContext context, KNReorderableItemState state) {
     BoxDecoration decoration;
 
-    if (state == KNReorderableItemDisplayState.dragProxy ||
-        state == KNReorderableItemDisplayState.dragProxyFinished) {
+    if (state == KNReorderableItemState.dragProxy ||
+        state == KNReorderableItemState.dragProxyFinished) {
       // slightly transparent background white dragging (just like on iOS)
       decoration = const BoxDecoration(color: Color(0xD0FFFFFF));
     } else {
-      bool placeholder = state == KNReorderableItemDisplayState.placeholder;
+      bool placeholder = state == KNReorderableItemState.placeholder;
       decoration = BoxDecoration(
           border: Border(
               top: isFirst && !placeholder
@@ -218,8 +217,7 @@ class Item extends StatelessWidget {
           bottom: false,
           child: Opacity(
             // hide content for placeholder
-            opacity:
-                state == KNReorderableItemDisplayState.placeholder ? 0.0 : 1.0,
+            opacity: state == KNReorderableItemState.placeholder ? 0.0 : 1.0,
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
